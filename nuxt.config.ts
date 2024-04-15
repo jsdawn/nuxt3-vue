@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   alias: {
     '@/': fileURLToPath(new URL('./', import.meta.url)),
   },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', "@nuxt/ui"],
   vite: {
     css: {
       preprocessorOptions: {

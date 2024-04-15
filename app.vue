@@ -1,21 +1,23 @@
 <template>
-  <Head>
-    <Title>网站标题HEAD</Title>
-    <Meta name="description" content="这是我的神奇网站，让我告诉您所有相关信息。HEAD" />
-  </Head>
+  <div class="app-wrap">
+    <Head>
+      <Title>网站标题HEAD</Title>
+      <Meta name="description" content="这是我的神奇网站，让我告诉您所有相关信息。HEAD" />
+    </Head>
 
-  <header>
-    <nav>
-      <ul>
-        <li><NuxtLink to="/about">About</NuxtLink></li>
-        <li><NuxtLink to="/posts/1">Post 1</NuxtLink></li>
-        <li><NuxtLink to="/posts/2">Post 2</NuxtLink></li>
-        <li><NuxtLink to="/posts/abc123">Post abc123</NuxtLink></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+      <nav class="bg-green-100 mb-5">
+        <ul>
+          <li><NuxtLink to="/about">About</NuxtLink></li>
+          <li><NuxtLink to="/posts/1">Post 1</NuxtLink></li>
+          <li><NuxtLink to="/posts/2">Post 2</NuxtLink></li>
+          <li><NuxtLink to="/posts/abc123">Post abc123</NuxtLink></li>
+        </ul>
+      </nav>
+    </header>
 
-  <NuxtPage />
+    <NuxtPage />
+  </div>
 </template>
 
 <script setup>
@@ -30,4 +32,8 @@ useServerSeoMeta({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-wrap {
+  padding: 20px;
+}
+</style>
