@@ -1,39 +1,32 @@
 <template>
-  <div class="app-wrap">
+  <div id="app">
     <Head>
-      <Title>网站标题HEAD</Title>
-      <Meta name="description" content="这是我的神奇网站，让我告诉您所有相关信息。HEAD" />
+      <Title>{{ seoMeta.title }}</Title>
+      <Meta name="description" :content="seoMeta.description" />
     </Head>
 
-    <header>
-      <nav class="bg-green-100 mb-5">
-        <ul>
-          <li><NuxtLink to="/about">About</NuxtLink></li>
-          <li><NuxtLink to="/posts/1">Post 1</NuxtLink></li>
-          <li><NuxtLink to="/posts/2">Post 2</NuxtLink></li>
-          <li><NuxtLink to="/posts/abc123">Post abc123</NuxtLink></li>
-        </ul>
-      </nav>
-    </header>
+    <AppHeader />
 
     <NuxtPage />
   </div>
 </template>
 
 <script setup>
-const runtimeConfig = useRuntimeConfig();
-console.log(runtimeConfig);
-// const appConfig = useAppConfig();
+import AppHeader from '@/components/Layout/AppHeader.vue';
 
 // 入口seo设置，页面使用useSeoMeta
+const seoMeta = reactive({
+  title: 'Kexpress',
+  description: 'Kexpress Description.',
+});
+
 useServerSeoMeta({
-  title: '网站标题222',
-  description: '这是我的神奇网站，让我告诉您所有相关信息。',
+  title: () => seoMeta.title,
+  description: () => seoMeta.description,
 });
 </script>
 
 <style lang="scss" scoped>
-.app-wrap {
-  padding: 20px;
+#app {
 }
 </style>

@@ -14,14 +14,17 @@ export default defineNuxtConfig({
   alias: {
     '@/': fileURLToPath(new URL('./', import.meta.url)),
   },
-  modules: ['@pinia/nuxt', "@nuxt/ui"],
+  modules: ['@pinia/nuxt', '@nuxt/ui'],
+  ui: {
+    icons: ['heroicons'],
+  },
   vite: {
     css: {
       preprocessorOptions: {
-        // scss: {
-        //  Nuxt 组件/页面样式中全局插入语句
-        // additionalData: '@use "@/assets/_var.scss" as *;',
-        // },
+        scss: {
+          //  Nuxt 组件/页面样式中全局插入语句
+          additionalData: '@use "@/assets/styles/index.scss" as *;',
+        },
       },
     },
   },
