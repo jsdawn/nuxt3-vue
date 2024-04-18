@@ -5,6 +5,7 @@
       <Meta name="description" :content="seoMeta.description" />
     </Head>
 
+    <TopNav />
     <AppHeader />
 
     <NuxtPage />
@@ -12,6 +13,7 @@
 </template>
 
 <script setup>
+import TopNav from '@/components/Layout/TopNav.vue';
 import AppHeader from '@/components/Layout/AppHeader.vue';
 
 // 入口seo设置，页面使用useSeoMeta

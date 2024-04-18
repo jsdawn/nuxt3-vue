@@ -1,11 +1,13 @@
 <template>
-  <div class="v-page index-page pb-20">
-    <UContainer class="pt-8">
+  <div class="v-page index-page pb-0">
+    <UContainer class="section-item pt-8">
       <h3 class="text-primary text-center text-lg font-light">
         Unser Kugellager‑Shop steht für
       </h3>
 
-      <div class="text-sm text-gray-500 grid grid-cols-1">
+      <div
+        class="text-sm text-gray-500 grid grid-cols-1 md:grid-cols-2 md:gap-5 lg:grid-cols-3 lg:gap-8"
+      >
         <div class="desc-item pt-6">
           <h4 class="text-base text-primary">Schnelligkeit</h4>
           <p>
@@ -36,44 +38,58 @@
       </div>
     </UContainer>
 
-    <UContainer class="pt-8">
+    <UContainer class="section-item pt-8">
       <h3 class="text-primary text-center text-lg font-light">NEWS</h3>
 
-      <div class="text-sm text-gray-500 grid grid-cols-1">
-        <div class="desc-item pt-6">
-          <h4 class="text-base text-primary">DIN ISO 9001-Zertifizierung</h4>
-          <p>
-            Seit September 2021 ist die Kugellager-Express GmbH nach DIN EN ISO 9001
-            zertifiziert. Das Qualitätsmanagement umfasst die Wareneingangskontrolle, die
-            Lieferantenentwicklung, die Optimierung aller betrieblichen Abläufe sowie die
-            Qualifizierung und Weiterentwicklung der Mitarbeiter.
-          </p>
-        </div>
-        <div class="desc-item pt-6">
-          <h4 class="text-base text-primary">
-            Umstellung zum kontaktlosen Direktverkauf
-          </h4>
-          <p>
-            Sie haben nun die Möglichkeit, Ihre Ware kontaktlos direkt an unserem Standort
-            abzuholen. Nach erfolgter Bezahlung wird Ihnen die bestellte Ware in unserer
-          </p>
-        </div>
-        <div class="desc-item pt-6">
-          <h4 class="text-base text-primary">
-            Röntgenfluoreszenzanalyse – Werkstoffanalyse im Wareneingang
-          </h4>
-          <p>Zur Werkstoffanalyse setzen wir ein RFA Handgerät X-MET8000 ein.</p>
-          <p>Gemeinam mit der Firma Hitachi wurde eine Fallstudie durchgeführt.</p>
+      <div class="text-sm text-gray-500 flex flex-wrap">
+        <div class="lg:flex lg:space-x-8">
+          <div class="md:flex md:space-x-5 lg:basis-2/3 lg:space-x-8">
+            <div class="desc-item pt-6 md:basis-1/2">
+              <h4 class="text-base text-primary">DIN ISO 9001-Zertifizierung</h4>
+              <p>
+                Seit September 2021 ist die Kugellager-Express GmbH nach DIN EN ISO 9001
+                zertifiziert. Das Qualitätsmanagement umfasst die Wareneingangskontrolle,
+                die Lieferantenentwicklung, die Optimierung aller betrieblichen Abläufe
+                sowie die Qualifizierung und Weiterentwicklung der Mitarbeiter.
+              </p>
+            </div>
+
+            <div class="desc-item pt-6 md:basis-1/2">
+              <h4 class="text-base text-primary">
+                Umstellung zum kontaktlosen Direktverkauf
+              </h4>
+              <p>
+                Sie haben nun die Möglichkeit,abzuholen, Ihre Ihre Ware kontaktlos direkt
+                an unseremStandort abzuholen. Nach erfolgter Bezahlung wird Ihnen die
+                bestellte Ware in unserer
+              </p>
+            </div>
+          </div>
+
+          <div class="desc-item pt-6 lg:basis-1/3">
+            <h4 class="text-base text-primary">
+              Röntgenfluoreszenzanalyse – Werkstoffanalyse im Wareneingang
+            </h4>
+            <p>
+              Zur Werkstoffanalyse setzen wir ein RFA Handgerät X-MET8000 ein. Gemeinam
+              mit der Firma Hitachi wurde eine Fallstudie durchgeführt. Gemeinam mit der
+              Firma Hitachi wurde eine Fallstudie durchgeführt.Gemeinam mit der Firma
+              Hitachi wurde eine Fallstudie durchgeführt. Gemeinam mit der Firma Hitachi
+              wurde eine Fallstudie durchgeführt.
+            </p>
+          </div>
         </div>
 
+        <!-- 图文 -->
         <div class="pt-6 sm:flex sm:flex-row-reverse">
-          <div class="bg-green-100 flex items-center sm:basis-1/2">
+          <div
+            class="bg-green-100 flex items-center sm:basis-1/2 sm:ml-5 md:ml-8 lg:basis-1/3"
+          >
             <img class="w-full" src="~/assets/image/image001.jpg" alt="" />
           </div>
-          <div class="desc-item pt-6 sm:basis-1/2">
-            <h4 class="text-base text-primary">
-              Kugellager-Express ist Wachstums­champions 2022
-            </h4>
+
+          <div class="desc-item pt-6 sm:basis-1/2 lg:basis-2/3">
+            <h4 class="text-base text-primary">Kugellager-Express ist 2022</h4>
             <p>
               Am 15. Oktober 2021 zeichnete das Nachrichtenmagazin FOCUS in Kooperation
               mit Statista die 500 wachstumsstärksten Unternehmen Deutschlands aus. Die
@@ -85,6 +101,8 @@
         </div>
       </div>
     </UContainer>
+
+    <div class="ft mt-20 bg-gray-200" style="height: 300px"></div>
   </div>
 </template>
 
