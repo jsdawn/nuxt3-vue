@@ -106,6 +106,10 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const runtimeConfig = useRuntimeConfig();
+
+console.log('apiBase: ' + runtimeConfig.public.apiBase);
+</script>
 
 <style lang="scss" scoped></style>
