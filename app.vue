@@ -22,6 +22,10 @@ const seoMeta = reactive({
   description: 'Kexpress Description.',
 });
 
+const runtimeConfig = useRuntimeConfig();
+
+console.log('[RuntimeConfig] apiBase: ' + runtimeConfig.public.apiBase);
+
 useServerSeoMeta({
   title: () => seoMeta.title,
   description: () => seoMeta.description,

@@ -1,8 +1,4 @@
 <template>
-  <Head>
-    <Title>我是关于</Title>
-  </Head>
-
   <div class="v-page about-page">
     <div>
       <UButton>以下是flex响应式布局</UButton>
@@ -20,6 +16,10 @@
 import { useCounterStore } from '@/store/useCounterStore';
 
 const stroe = useCounterStore();
+
+useSeoMeta({
+  title: () => '关于我们',
+});
 </script>
 
 <style lang="scss" scoped></style>

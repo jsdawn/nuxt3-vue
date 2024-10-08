@@ -75,6 +75,17 @@ node .output/server/index.mjs
 HOST=0.0.0.0 PORT=3008 node .output/server/index.mjs
 ```
 
+## 部署静态主机
+
+```bash
+# Build the application for production
+pnpm generate
+
+# 静态文件在 .output/public
+# 使用serve包预览页面
+cd .output/public && serve
+```
+
 ## Directory Structure
 
 address：https://nuxt.com/docs/guide/directory-structure/app
