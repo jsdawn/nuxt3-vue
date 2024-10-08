@@ -5,21 +5,17 @@
       <Meta name="description" :content="seoMeta.description" />
     </Head>
 
-    <TopNav />
-    <AppHeader />
+    <LayoutHeader />
 
     <NuxtPage />
   </div>
 </template>
 
 <script setup>
-import TopNav from '@/components/Layout/TopNav.vue';
-import AppHeader from '@/components/Layout/AppHeader.vue';
-
 // 入口seo设置，页面使用useSeoMeta
 const seoMeta = reactive({
-  title: 'Kexpress',
-  description: 'Kexpress Description.',
+  title: '木得 mood',
+  description: '木得是英文mood（心境）的中文谐音，有木心情都来mood。',
 });
 
 const runtimeConfig = useRuntimeConfig();
