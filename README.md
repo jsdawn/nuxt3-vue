@@ -120,3 +120,7 @@ address：https://nuxt.com/docs/guide/directory-structure/app
 └── utils
     └── request.js
 ```
+
+## 响应式布局
+
+技巧：Tailwind 使用移动设备优先的断点系统，先布局小屏幕，再适应大屏幕

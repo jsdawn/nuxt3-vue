@@ -2,8 +2,8 @@
   <div class="app-header py-3 shadow-md bg-white sticky top-0 z-40">
     <UContainer class="header-container" :ui="{ constrained: 'max-w-screen-lg' }">
       <div class="flex justify-between items-center space-x-5">
-        <div class="flex-1 flex items-center space-x-5">
-          <img class="logo h-7" src="~/assets/image/logo.png" />
+        <div class="flex-1 flex items-center">
+          <img class="logo h-7 mr-5" src="~/assets/image/logo.png" />
 
           <UDropdown :items="types" :popper="{ placement: 'bottom-start' }">
             <ULink class="flex items-center space-x-1" inactive-class="text-primary">
@@ -14,6 +14,7 @@
         </div>
 
         <UInput
+          class="hidden sm:block"
           icon="i-heroicons-magnifying-glass-20-solid"
           size="md"
           color="white"
@@ -21,7 +22,11 @@
           placeholder="Search..."
         />
 
-        <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+        <UDropdown
+          class="hidden sm:block"
+          :items="items"
+          :popper="{ placement: 'bottom-start' }"
+        >
           <UButton
             color="primary"
             label="发心情"
