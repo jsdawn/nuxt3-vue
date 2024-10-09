@@ -22,12 +22,16 @@
           <div class="space-x-3">
             <UIcon class="w-5 h-5" name="i-heroicons-heart" />
             <!-- <UIcon class="w-5 h-5" name="i-heroicons-heart-solid" /> -->
-            <UIcon class="w-5 h-5" name="i-heroicons-chat-bubble-left" />
+            <UIcon
+              class="w-5 h-5"
+              name="i-heroicons-chat-bubble-left"
+              @click="openComment()"
+            />
           </div>
         </div>
 
-        <!-- 评论区 -->
         <div class="bg-gray-100 p-2 rounded-sm space-y-2">
+          <!-- 点赞区 -->
           <div class="text-primary-600 space-x-1">
             <UIcon class="w-5 h-5 align-text-bottom" name="i-heroicons-heart" />
             <span>青山依旧，</span>
@@ -35,6 +39,7 @@
             <span>正在追忆往昔</span>
           </div>
 
+          <!-- 评论区 -->
           <div class="comments space-y-2 text-gray-700">
             <div class="comment-content">
               <div class="user-info inline-block">
@@ -53,6 +58,24 @@
               既然看完了《天龙八部》那我问问你，它讲的是什么内容
             </div>
           </div>
+
+          <div
+            class="comment-opr border border-primary rounded-sm bg-white"
+            v-if="showInput"
+            v-click-outside="clickOutComment"
+          >
+            <UTextarea
+              v-model="inputValue"
+              variant="none"
+              :rows="1"
+              :maxrows="3"
+              autoresize
+              placeholder="评论"
+            />
+            <div class="opr flex justify-end p-2.5 pt-0">
+              <UButton color="primary" :disabled="true">发送</UButton>
+            </div>
+          </div>
         </div>
 
         <UDivider class="pt-2" />
@@ -62,7 +85,18 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+const showInput = ref(false);
+const inputValue = ref('');
+
+function openComment() {
+  console.log('oepn');
+  showInput.value = true;
+}
+function clickOutComment() {
+  if (showInput.value == true) {
+    // showInput.value = false;
+  }
+}
 </script>
 
 <style lang="scss">
