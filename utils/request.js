@@ -17,7 +17,7 @@ const service = $fetch.create({
     options.method = options.method?.toUpperCase() || 'GET';
     // 请求拦截相关配置
     options.headers = {
-      Authorization: localStorage.getItem('userToken') || '',
+      Authorization: localStorage.getItem('user-token') || '',
     };
 
     // --start 防止重复提交--
@@ -92,7 +92,7 @@ const service = $fetch.create({
   },
   // 响应错误拦截
   onResponseError(error) {
-    // console.log(error.response, '响应错误拦截');
+    showError(error);
     return Promise.reject(error);
   },
 });

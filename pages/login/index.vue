@@ -11,7 +11,7 @@
         </UFormGroup>
 
         <div class="pt-4">
-          <UButton size="md" block type="submit"> 登录 </UButton>
+          <UButton size="md" block type="submit" :loading="posting"> 登录 </UButton>
         </div>
         <UButton size="md" block color="white" to="/login/register" replace>
           去注册
@@ -23,27 +23,34 @@
 
 <script setup>
 import { loginUser } from '@/api';
+import { useToastStore } from '@/store/useToastStore';
+import { useAppStore } from '@/store/useAppStore';
 import Joi from 'joi';
 
-const toast = useToast();
+const toast = useToastStore();
+const store = useAppStore();
+
 const schema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
 });
 
+const posting = ref(false);
 const form = reactive({
   email: undefined,
   password: undefined,
 });
 
 async function onSubmit(event) {
+  posting.value = true;
   try {
     const res = await loginUser(event.data);
-    console.log(res);
+    store.setToken(res.data.token);
+    store.setUser(res.data.user);
   } catch (error) {
-    console.log(error.message);
-    toast.add({ title: error.message, timeout: 0 });
+    toast.error({ title: error.message });
   }
+  posting.value = false;
 }
 </script>
 

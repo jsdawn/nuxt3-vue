@@ -5,21 +5,30 @@ import { defineStore } from 'pinia';
  */
 export const useToastStore = defineStore('toast', {
   state: () => ({
-    show: true,
-    options: {
-      title: '系统提示',
-    },
+    instance: null, // useToast实例
   }),
-  getters: {
-    doubleCount: (state) => state.count * 2,
-  },
+  getters: {},
   actions: {
+    setInstance(val) {
+      this.instance = val;
+    },
     add(params) {
-      this.options = { ...params };
-      this.show = true;
+      if (!this.instance) return;
+      this.instance.add({ ...params });
     },
     remove() {
-      this.show = false;
+      if (!this.instance) return;
+      this.instance.remove();
+    },
+    success(params) {
+      this.add({ icon: 'i-heroicons-check-circle-20-solid', ...params });
+    },
+    error(params) {
+      this.add({
+        icon: 'i-heroicons-exclamation-circle-20-solid',
+        color: 'red',
+        ...params,
+      });
     },
   },
 });
