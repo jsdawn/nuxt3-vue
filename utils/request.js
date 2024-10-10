@@ -69,7 +69,6 @@ const service = $fetch.create({
 
   // 响应拦截
   onResponse({ response: res }) {
-    // console.log(res, '响应拦截');
     // 未设置状态码则默认成功状态
     const code = res.status || 200;
     // 二进制数据则直接返回
@@ -78,20 +77,14 @@ const service = $fetch.create({
     }
 
     if (code === 401) {
-      // Taro.showToast({
-      //   title: '登录状态已过期，请重新登录',
-      //   icon: 'none',
-      //   duration: 2000,
-      // });
-      // Taro.reLaunch({ url: '/pages/login/index' });
+      navigateTo('/login');
       return Promise.reject(new Error('登录状态已过期，请重新登录'));
     } else if (code !== 200) {
-      const message = res.msg || '服务器开小差了';
-      // Taro.showToast({
-      //   title: message,
-      //   icon: message.length > 7 ? 'none' : 'error',
-      //   duration: 2000,
-      // });
+      let message = res.statusText || '服务器开小差了';
+      if (res._data && res._data.msg) {
+        message = res._data.msg;
+      }
+      // showError(message);
       return Promise.reject(new Error(message));
     } else {
       return Promise.resolve(res._data); // 返回响应体 data

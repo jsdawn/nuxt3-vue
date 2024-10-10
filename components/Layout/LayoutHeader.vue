@@ -3,7 +3,9 @@
     <UContainer class="header-container" :ui="{ constrained: 'max-w-screen-lg' }">
       <div class="flex justify-between items-center space-x-5">
         <div class="flex-1 flex items-center">
-          <img class="logo h-7 mr-5" src="~/assets/image/logo.png" />
+          <ULink class="mr-5" to="/">
+            <img class="logo h-7" src="~/assets/image/logo.png" />
+          </ULink>
 
           <UDropdown :items="types" :popper="{ placement: 'bottom-start' }">
             <ULink class="flex items-center space-x-1" inactive-class="text-primary">
@@ -34,7 +36,7 @@
           />
         </UDropdown>
 
-        <UButton label="登录/注册" color="gray">
+        <UButton label="登录/注册" color="gray" @click="gotoLogin">
           <template #leading>
             <UAvatar size="2xs" alt="M" />
           </template>
@@ -46,34 +48,17 @@
 
 <script setup>
 const types = ref([
-  [
-    {
-      label: '心情',
-      icon: 'i-heroicons-fire-20-solid',
-    },
-  ],
-  [
-    {
-      label: '文章',
-      icon: 'i-heroicons-document-text-solid',
-    },
-  ],
+  [{ label: '心情', icon: 'i-heroicons-fire-20-solid', to: '/' }],
+  [{ label: '文章', icon: 'i-heroicons-document-text-solid', to: '/posts' }],
+]);
+const items = ref([
+  [{ label: '发心情', icon: 'i-heroicons-chat-bubble-left-ellipsis' }],
+  [{ label: '写文章', icon: 'i-heroicons-pencil-square-20-solid' }],
 ]);
 
-const items = ref([
-  [
-    {
-      label: '发心情',
-      icon: 'i-heroicons-chat-bubble-left-ellipsis',
-    },
-  ],
-  [
-    {
-      label: '写文章',
-      icon: 'i-heroicons-pencil-square-20-solid',
-    },
-  ],
-]);
+function gotoLogin() {
+  navigateTo('/login');
+}
 </script>
 
 <style lang="scss">

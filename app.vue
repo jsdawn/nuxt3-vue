@@ -8,10 +8,17 @@
     <LayoutHeader />
 
     <NuxtPage />
+
+    <!-- 自定义全局toast -->
+    <UNotification :id="1" v-if="toast.show" v-bind="toast.options" />
   </div>
 </template>
 
 <script setup>
+import { useToastStore } from '@/store/useToastStore';
+
+const toast = useToastStore(); // 自定义全局toast
+
 // 入口seo设置，页面使用useSeoMeta
 const seoMeta = reactive({
   title: '木得 mood',
