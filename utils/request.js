@@ -1,3 +1,4 @@
+import { useAppStore } from '@/store/useAppStore';
 
 const service = $fetch.create({
   // 超时时长ms
@@ -5,6 +6,7 @@ const service = $fetch.create({
 
   // 请求拦截
   onRequest({ request, options }) {
+    const store = useAppStore();
     // 请求前缀url
     options.baseURL =
       process.env.NODE_ENV === 'development'
@@ -17,7 +19,7 @@ const service = $fetch.create({
     options.method = options.method?.toUpperCase() || 'GET';
     // 请求拦截相关配置
     options.headers = {
-      Authorization: localStorage.getItem('user-token') || '',
+      Authorization: store.token || '',
     };
 
     // --start 防止重复提交--
@@ -37,10 +39,10 @@ const service = $fetch.create({
         return;
       }
 
-      let sessionObj = sessionStorage.getItem('requestObj');
+      let sessionObj = store.requestObj;
       sessionObj = sessionObj ? JSON.parse(sessionObj) : null;
       if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
-        sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+        store.setRequestObj(JSON.stringify(requestObj));
       } else {
         const s_url = sessionObj.url; // 请求地址
         const s_data = sessionObj.data; // 请求数据
@@ -55,7 +57,7 @@ const service = $fetch.create({
           console.warn(`[${s_url}]: ` + message);
           return Promise.reject(new Error(message));
         } else {
-          sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+          store.setRequestObj(JSON.stringify(requestObj));
         }
       }
     }

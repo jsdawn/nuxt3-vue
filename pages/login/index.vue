@@ -47,6 +47,7 @@ async function onSubmit(event) {
     const res = await loginUser(event.data);
     store.setToken(res.data.token);
     store.setUser(res.data.user);
+    navigateTo('/');
   } catch (error) {
     toast.error({ title: error.message });
   }

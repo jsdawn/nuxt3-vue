@@ -9,6 +9,11 @@
 </template>
 
 <script setup>
+import { getUser } from '@/api/user';
+import { useAppStore } from '@/store/useAppStore';
+
+const store = useAppStore();
+
 const [startObserve] = useLoadMoreObserver('#load-more', onLoadMore);
 const state = reactive({
   loading: false,

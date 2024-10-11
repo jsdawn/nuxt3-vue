@@ -36,7 +36,13 @@
           />
         </UDropdown>
 
-        <UButton label="登录/注册" color="gray" @click="gotoLogin">
+        <UButton :label="store.user.name" color="gray" v-if="store.isUsered">
+          <template #leading>
+            <UAvatar :src="store.user.avatar" size="2xs" alt="M" />
+          </template>
+        </UButton>
+
+        <UButton label="登录/注册" color="gray" @click="gotoLogin" v-else>
           <template #leading>
             <UAvatar size="2xs" alt="M" />
           </template>
@@ -47,6 +53,10 @@
 </template>
 
 <script setup>
+import { useAppStore } from '@/store/useAppStore';
+
+const store = useAppStore();
+
 const types = ref([
   [{ label: '心情', icon: 'i-heroicons-fire-20-solid', to: '/' }],
   [{ label: '文章', icon: 'i-heroicons-document-text-solid', to: '/posts' }],
