@@ -6,19 +6,18 @@
       alt="Avatar"
     />
 
-    <div class="item__bd space-y-1">
-      <ULink class="item__title text-base" inactive-class="text-primary-600"
-        >你的昵称</ULink
-      >
+    <div class="item__bd space-y-1 flex-1">
+      <ULink class="item__title text-base" inactive-class="text-primary-600">
+        {{ author.name }}
+      </ULink>
 
       <!-- 内容区 -->
       <div class="item__content">
-        《天龙八部》看完了，125万字，半个多月，读了49个小时24分钟
-        现在开始看《射雕英雄传》了，昨天在返程的火车上看了5个小时，已经渐入佳境。
+        {{ item.content || item.title }}
       </div>
 
       <div class="flex justify-between">
-        <p class="item__date text-gray-400">15分钟前</p>
+        <p class="item__date text-gray-400">{{ item.created_at }}</p>
 
         <div class="item__actions space-x-3">
           <UIcon class="w-5 h-5" name="i-heroicons-heart" />
@@ -43,21 +42,21 @@
 
         <!-- 评论区 -->
         <div class="item__comments space-y-2 text-gray-700" ref="refComments">
-          <div class="item__comment-item" @click="openComment()">
+          <div
+            class="item__comment-item"
+            v-for="(comment, index) in comments"
+            :key="index"
+            @click="openComment(comment)"
+          >
             <div class="user-info inline-block">
-              <span class="text-primary-600">正在追忆往昔</span>:
+              <span class="text-primary-600">{{ comment.user_id }}</span>
+              <template v-if="comment.to_user_id">
+                <span class="mx-1">回复</span>
+                <span class="text-primary-600">{{ comment.to_user_id }}</span>
+              </template>
+              <span>:</span>
             </div>
-            既然看完了《天龙八部》那我问问你，它讲的是什么内容
-          </div>
-
-          <div class="item__comment-item" @click="openComment()">
-            <div class="user-info inline-block">
-              <span class="text-primary-600">周不夜天</span>
-              <span class="mx-1">回复</span>
-              <span class="text-primary-600">正在追忆往昔</span>
-              :
-            </div>
-            既然看完了《天龙八部》那我问问你，它讲的是什么内容
+            {{ comment.content }}
           </div>
         </div>
 
@@ -86,6 +85,13 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  item: { type: Object, required: true },
+});
+
+const author = computed(() => props.item.author);
+const comments = computed(() => props.item.comments || []);
+
 const refCommentIcon = ref();
 const refComments = ref();
 const showInput = ref(false);

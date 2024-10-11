@@ -37,8 +37,8 @@ const schema = Joi.object({
 
 const posting = ref(false);
 const form = reactive({
-  email: undefined,
-  password: undefined,
+  email: 'wyh@qq.com',
+  password: '123456',
 });
 
 async function onSubmit(event) {

@@ -10,6 +10,7 @@ export const useAppStore = defineStore('app', {
     isUsered: (state) => !!(state.user && state.user.id),
   },
   actions: {
+    // set fun
     setRequestObj(val) {
       this.requestObj = val || null;
     },
@@ -19,6 +20,13 @@ export const useAppStore = defineStore('app', {
     },
     setUser(val) {
       this.user = val || null;
+    },
+
+    // actions fun
+    signOut() {
+      this.token = '';
+      this.user = null;
+      reloadNuxtApp();
     },
   },
   persist: {

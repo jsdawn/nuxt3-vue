@@ -10,23 +10,27 @@ import { useAppStore } from '@/store/useAppStore';
 const NotLoginRoutes = ['/login', '/login/register'];
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  console.log('====Middleware global auth====', to, from);
+  // console.log('====Middleware global auth====', to, from);
 
   const store = useAppStore();
   const requireLogin = !NotLoginRoutes.includes(to.path);
+  const isLoginPage = to.path == '/login';
 
-  if (requireLogin && !store.token) {
+  if (requireLogin && !store.token && !isLoginPage) {
     return navigateTo('/login');
   }
 
-  if (store.token && !store.user) {
-    try {
-      const res = await getUser();
-      store.setUser(res.data);
-      console.log(res);
-    } catch (error) {
-      // store.setToken('');
-      // return navigateTo('/login');
+  if (import.meta.client) {
+    if (store.token && !store.user && !isLoginPage) {
+      try {
+        const res = await getUser();
+        store.setUser(res.data);
+      } catch (error) {
+        store.setToken('');
+        return navigateTo('/login');
+      }
     }
+  } else {
+    // ssr逻辑
   }
 });

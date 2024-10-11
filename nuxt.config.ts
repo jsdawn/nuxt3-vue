@@ -4,12 +4,13 @@ import { fileURLToPath } from 'url';
 // @ts-ignore
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  ssr: false, // 暂时关闭ssr（middleware 异步auth的时候在ssr中存在异常）
 
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET || '', // can be overridden by NUXT_API_SECRET environment variable
     public: {
       // 也可在执行命令的时候使用 --dotenv 指定.env文件
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://api.example.prod.com', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://127.0.0.1:8000',
     },
   },
 

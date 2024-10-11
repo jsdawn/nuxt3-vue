@@ -36,11 +36,7 @@
           />
         </UDropdown>
 
-        <UButton :label="store.user.name" color="gray" v-if="store.isUsered">
-          <template #leading>
-            <UAvatar :src="store.user.avatar" size="2xs" alt="M" />
-          </template>
-        </UButton>
+        <LayoutUserMenu :user="store.user" v-if="store.isUsered" />
 
         <UButton label="登录/注册" color="gray" @click="gotoLogin" v-else>
           <template #leading>

@@ -19,6 +19,7 @@ const service = $fetch.create({
     options.method = options.method?.toUpperCase() || 'GET';
     // 请求拦截相关配置
     options.headers = {
+      Accept: 'application/json',
       Authorization: store.token || '',
     };
 
@@ -80,13 +81,14 @@ const service = $fetch.create({
 
     if (code === 401) {
       navigateTo('/login');
-      return Promise.reject(new Error('登录状态已过期，请重新登录'));
+      console.error('用户认证失效，请重新登录');
+      return Promise.reject(new Error('用户认证失效，请重新登录'));
     } else if (code !== 200) {
       let message = res.statusText || '服务器开小差了';
       if (res._data && res._data.msg) {
         message = res._data.msg;
       }
-      // showError(message);
+      console.error(message);
       return Promise.reject(new Error(message));
     } else {
       return Promise.resolve(res._data); // 返回响应体 data

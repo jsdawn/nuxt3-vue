@@ -1,7 +1,7 @@
 <template>
   <div class="v-page index-page">
     <UContainer class="mood-list">
-      <MoodListItem v-for="n in state.dataList" :key="n" />
+      <MoodListItem :item="item" v-for="item in state.dataList" :key="item.id" />
 
       <UDivider id="load-more" class="py-6" :label="state.finished ? '完' : '加载中'" />
     </UContainer>
@@ -9,28 +9,35 @@
 </template>
 
 <script setup>
-import { getUser } from '@/api/user';
-import { useAppStore } from '@/store/useAppStore';
+import { listArticles } from '@/api/articles';
+import { useToastStore } from '@/store/useToastStore';
 
-const store = useAppStore();
+const toast = useToastStore();
 
 const [startObserve] = useLoadMoreObserver('#load-more', onLoadMore);
 const state = reactive({
   loading: false,
   finished: false,
   page: 1,
-  size: 20,
-  dataList: 0,
+  size: 5,
+  dataList: [],
 });
 
-function fetchList() {
+async function fetchList() {
   state.loading = true;
-  setTimeout(() => {
-    state.dataList += 20;
-    state.page++;
-    state.loading = false;
-    state.finished = true;
-  }, 500);
+  try {
+    const res = await listArticles({ page: state.page, size: state.size });
+    console.log(res);
+    state.dataList.push(...res.data);
+    if (state.dataList.length >= res.meta.total) {
+      state.finished = true;
+    }
+  } catch (error) {
+    toast.error(error);
+  }
+
+  state.loading = false;
+  state.page++;
 }
 
 function onLoadMore() {
