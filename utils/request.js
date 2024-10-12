@@ -24,7 +24,12 @@ const service = $fetch.create({
     };
 
     // --start 防止重复提交--
-    if (!isRepeatSubmit && (options.method === 'POST' || options.method === 'PUT')) {
+    if (
+      !isRepeatSubmit &&
+      (options.method === 'POST' ||
+        options.method === 'PUT' ||
+        options.method === 'DELETE')
+    ) {
       const requestObj = {
         url: request.url,
         data:

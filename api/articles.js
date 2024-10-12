@@ -30,3 +30,11 @@ export function delArticles(id) {
   });
 }
 
+// 点赞/取消点赞
+export function updArticleLikes(data) {
+  return request({
+    url: '/api/article/likes',
+    method: 'post',
+    data,
+  });
+}

@@ -2,11 +2,7 @@
   <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
     <UButton :label="user.name" color="gray">
       <template #leading>
-        <UAvatar
-          :src="user.avatar || 'https://dummyimage.com/100x100/064b6e/fff.png'"
-          size="2xs"
-          alt="M"
-        />
+        <UAvatar :src="user.avatar || store.defaultAvatar" size="2xs" alt="M" />
       </template>
     </UButton>
 

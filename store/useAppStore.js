@@ -2,9 +2,10 @@ import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    requestObj: null,
+    requestObj: null, // 请求体缓存，防止请求重复提交
     token: '',
     user: null,
+    defaultAvatar: 'https://dummyimage.com/100x100/064b6e/fff.png',
   }),
   getters: {
     isUsered: (state) => !!(state.user && state.user.id),
