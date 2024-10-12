@@ -27,15 +27,13 @@ async function fetchList() {
   state.loading = true;
   try {
     const res = await listArticles({ page: state.page, size: state.size });
-    console.log(res);
     state.dataList.push(...res.data);
     if (state.dataList.length >= res.meta.total) {
       state.finished = true;
     }
   } catch (error) {
-    toast.error(error);
+    toast.error({ title: error.message });
   }
-
   state.loading = false;
   state.page++;
 }

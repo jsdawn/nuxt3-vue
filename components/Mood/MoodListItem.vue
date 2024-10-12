@@ -2,8 +2,8 @@
   <div class="mood-list-item flex space-x-3 text-sm pt-7">
     <UAvatar
       size="md"
-      src="https://avatars.githubusercontent.com/u/739984?v=4"
-      alt="Avatar"
+      :src="item.avatar || 'https://dummyimage.com/100x100/064b6e/fff.png'"
+      alt="M"
     />
 
     <div class="item__bd space-y-1 flex-1">
@@ -26,7 +26,7 @@
             class="w-5 h-5"
             ref="refCommentIcon"
             name="i-heroicons-chat-bubble-left"
-            @click="openComment()"
+            @click="openReply()"
           />
         </div>
       </div>
@@ -46,35 +46,42 @@
             class="item__comment-item"
             v-for="(comment, index) in comments"
             :key="index"
-            @click="openComment(comment)"
+            @click="openReply(comment)"
           >
             <div class="user-info inline-block">
-              <span class="text-primary-600">{{ comment.user_id }}</span>
-              <template v-if="comment.to_user_id">
+              <span class="text-primary-600">{{ comment.user?.name || '匿名用户' }}</span>
+              <template v-if="comment.to_user">
                 <span class="mx-1">回复</span>
-                <span class="text-primary-600">{{ comment.to_user_id }}</span>
+                <span class="text-primary-600">{{ comment.to_user.name }}</span>
               </template>
-              <span>:</span>
+              <span class="mx-0.5">:</span>
             </div>
-            {{ comment.content }}
+            <span v-html="comment.content?.replace(/\n/g, '<br>')"></span>
           </div>
         </div>
 
         <div
           class="item__comment-area border border-primary rounded-sm bg-white"
-          v-if="showInput"
-          v-click-outside:[outsideExcludes]="clickOutComment"
+          v-if="replyState.show"
+          v-click-outside:[outsideExcludes]="clickOutReply"
         >
           <UTextarea
-            v-model="inputValue"
+            ref="refReplyInput"
+            v-model="replyState.caches[replyState.current]"
             variant="none"
             :rows="1"
             :maxrows="3"
             autoresize
-            placeholder="评论"
+            :placeholder="replyState.toUser ? `回复${replyState.toUser.name}` : '评论'"
           />
           <div class="opr flex justify-end p-2.5 pt-0">
-            <UButton color="primary" :disabled="true">发送</UButton>
+            <UButton
+              color="primary"
+              :disabled="replyState.caches[replyState.current].trim() == ''"
+              :loading="replyState.posting"
+              @click="sendReply"
+              >发送</UButton
+            >
           </div>
         </div>
       </div>
@@ -85,28 +92,79 @@
 </template>
 
 <script setup>
+import { addArticleComments } from '@/api/comments';
+import { useAppStore } from '@/store/useAppStore';
+import { useToastStore } from '@/store/useToastStore';
+
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
+const toast = useToastStore();
+const store = useAppStore();
+const refCommentIcon = ref();
+const refComments = ref();
+const refReplyInput = ref();
+// 记录评论状态
+const replyState = reactive({
+  caches: {
+    0: '', // 内容 {to_user_id: content}
+  },
+  current: 0, // 当前回复对象user_id
+  toUser: null,
+  show: false,
+  posting: false,
+});
+
+const outsideExcludes = computed(() => [refCommentIcon.value, refComments.value]);
 const author = computed(() => props.item.author);
 const comments = computed(() => props.item.comments || []);
 
-const refCommentIcon = ref();
-const refComments = ref();
-const showInput = ref(false);
-const inputValue = ref('');
-
-const outsideExcludes = computed(() => [refCommentIcon.value, refComments.value]);
-
-function openComment() {
-  console.log('oepn');
+// 回复/评论
+function openReply(item) {
+  if (!store.isUsered) {
+    return; // 未登录
+  }
+  let toUserId = 0;
+  // 回复对象（自己=无）
+  if (item && item.user_id != store.user.id) {
+    toUserId = item.user_id;
+    replyState.caches[toUserId] = replyState.caches[toUserId] || '';
+    replyState.toUser = item.user;
+  } else {
+    replyState.toUser = null;
+  }
+  replyState.current = toUserId;
+  replyState.show = true;
   nextTick(() => {
-    showInput.value = true;
+    if (refReplyInput.value) {
+      refReplyInput.value.textarea.focus();
+    }
   });
 }
-function clickOutComment() {
-  showInput.value = false;
+
+function clickOutReply() {
+  replyState.show = false;
+}
+
+async function sendReply() {
+  const content = replyState.caches[replyState.current]?.trim();
+  if (!content) return;
+
+  replyState.posting = true;
+  try {
+    const res = await addArticleComments({
+      article_id: props.item.id,
+      content,
+      to_user_id: replyState.current || undefined,
+    });
+    props.item.comments.push(res.data);
+  } catch (error) {
+    toast.error({ title: error.message });
+  }
+  replyState.caches[replyState.current] = '';
+  replyState.posting = false;
+  replyState.show = false;
 }
 </script>
 

@@ -29,3 +29,4 @@ export function delArticles(id) {
     method: 'delete',
   });
 }
+
