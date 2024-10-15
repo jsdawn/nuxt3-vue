@@ -58,7 +58,13 @@ const types = ref([
   [{ label: '文章', icon: 'i-heroicons-document-text-solid', to: '/posts' }],
 ]);
 const items = ref([
-  [{ label: '发心情', icon: 'i-heroicons-chat-bubble-left-ellipsis' }],
+  [
+    {
+      label: '发心情',
+      icon: 'i-heroicons-chat-bubble-left-ellipsis',
+      to: '/posts/edit?type=3',
+    },
+  ],
   [{ label: '写文章', icon: 'i-heroicons-pencil-square-20-solid' }],
 ]);
 

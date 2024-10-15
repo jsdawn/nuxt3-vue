@@ -36,7 +36,11 @@ const store = useAppStore();
 const items = ref([
   [{ label: '', slot: 'account', disabled: true }],
   [
-    { label: '发心情', icon: 'i-heroicons-chat-bubble-left-ellipsis' },
+    {
+      label: '发心情',
+      icon: 'i-heroicons-chat-bubble-left-ellipsis',
+      to: '/posts/edit?type=3',
+    },
     { label: '写文章', icon: 'i-heroicons-pencil-square-20-solid' },
   ],
   [

@@ -26,7 +26,11 @@ const state = reactive({
 async function fetchList() {
   state.loading = true;
   try {
-    const res = await listArticles({ page: state.page, size: state.size });
+    const res = await listArticles({
+      type: 3,
+      page: state.page,
+      size: state.size,
+    });
     state.dataList.push(...res.data);
     if (state.dataList.length >= res.meta.total) {
       state.finished = true;
