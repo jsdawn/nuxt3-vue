@@ -1,3 +1,4 @@
+import { useAppStore } from '@/store/useAppStore';
 
 const service = $fetch.create({
   // 超时时长ms
@@ -5,6 +6,7 @@ const service = $fetch.create({
 
   // 请求拦截
   onRequest({ request, options }) {
+    const store = useAppStore();
     // 请求前缀url
     options.baseURL =
       process.env.NODE_ENV === 'development'
@@ -17,11 +19,17 @@ const service = $fetch.create({
     options.method = options.method?.toUpperCase() || 'GET';
     // 请求拦截相关配置
     options.headers = {
-      Authorization: localStorage.getItem('userToken') || '',
+      Accept: 'application/json',
+      Authorization: store.token || '',
     };
 
     // --start 防止重复提交--
-    if (!isRepeatSubmit && (options.method === 'POST' || options.method === 'PUT')) {
+    if (
+      !isRepeatSubmit &&
+      (options.method === 'POST' ||
+        options.method === 'PUT' ||
+        options.method === 'DELETE')
+    ) {
       const requestObj = {
         url: request.url,
         data:
@@ -37,10 +45,10 @@ const service = $fetch.create({
         return;
       }
 
-      let sessionObj = sessionStorage.getItem('requestObj');
+      let sessionObj = store.requestObj;
       sessionObj = sessionObj ? JSON.parse(sessionObj) : null;
       if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
-        sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+        store.setRequestObj(JSON.stringify(requestObj));
       } else {
         const s_url = sessionObj.url; // 请求地址
         const s_data = sessionObj.data; // 请求数据
@@ -55,7 +63,7 @@ const service = $fetch.create({
           console.warn(`[${s_url}]: ` + message);
           return Promise.reject(new Error(message));
         } else {
-          sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+          store.setRequestObj(JSON.stringify(requestObj));
         }
       }
     }
@@ -69,7 +77,6 @@ const service = $fetch.create({
 
   // 响应拦截
   onResponse({ response: res }) {
-    // console.log(res, '响应拦截');
     // 未设置状态码则默认成功状态
     const code = res.status || 200;
     // 二进制数据则直接返回
@@ -78,20 +85,15 @@ const service = $fetch.create({
     }
 
     if (code === 401) {
-      // Taro.showToast({
-      //   title: '登录状态已过期，请重新登录',
-      //   icon: 'none',
-      //   duration: 2000,
-      // });
-      // Taro.reLaunch({ url: '/pages/login/index' });
-      return Promise.reject(new Error('登录状态已过期，请重新登录'));
+      navigateTo('/login');
+      console.error('用户认证失效，请重新登录');
+      return Promise.reject(new Error('用户认证失效，请重新登录'));
     } else if (code !== 200) {
-      const message = res.msg || '服务器开小差了';
-      // Taro.showToast({
-      //   title: message,
-      //   icon: message.length > 7 ? 'none' : 'error',
-      //   duration: 2000,
-      // });
+      let message = res.statusText || '服务器开小差了';
+      if (res._data && res._data.msg) {
+        message = res._data.msg;
+      }
+      console.error(message);
       return Promise.reject(new Error(message));
     } else {
       return Promise.resolve(res._data); // 返回响应体 data
@@ -99,7 +101,7 @@ const service = $fetch.create({
   },
   // 响应错误拦截
   onResponseError(error) {
-    // console.log(error.response, '响应错误拦截');
+    showError(error);
     return Promise.reject(error);
   },
 });

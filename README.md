@@ -60,7 +60,7 @@ yarn preview
 bun run preview
 ```
 
-## Deployment
+## Deployment ssr
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
@@ -73,6 +73,17 @@ node .output/server/index.mjs
 
 # host,port
 HOST=0.0.0.0 PORT=3008 node .output/server/index.mjs
+```
+
+## 部署静态主机
+
+```bash
+# Build the application for production
+pnpm generate
+
+# 静态文件在 .output/public
+# 使用serve包预览页面
+cd .output/public && serve
 ```
 
 ## Directory Structure
@@ -109,3 +120,7 @@ address：https://nuxt.com/docs/guide/directory-structure/app
 └── utils
     └── request.js
 ```
+
+## 响应式布局
+
+技巧：Tailwind 使用移动设备优先的断点系统，先布局小屏幕，再适应大屏幕

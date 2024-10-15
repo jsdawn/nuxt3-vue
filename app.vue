@@ -1,33 +1,47 @@
 <template>
-  <Head>
-    <Title>网站标题HEAD</Title>
-    <Meta name="description" content="这是我的神奇网站，让我告诉您所有相关信息。HEAD" />
-  </Head>
+  <div id="app">
+    <Head>
+      <Title>{{ seoMeta.title }}</Title>
+      <Meta name="description" :content="seoMeta.description" />
+    </Head>
 
-  <header>
-    <nav>
-      <ul>
-        <li><NuxtLink to="/about">About</NuxtLink></li>
-        <li><NuxtLink to="/posts/1">Post 1</NuxtLink></li>
-        <li><NuxtLink to="/posts/2">Post 2</NuxtLink></li>
-        <li><NuxtLink to="/posts/abc123">Post abc123</NuxtLink></li>
-      </ul>
-    </nav>
-  </header>
+    <LayoutHeader />
 
-  <NuxtPage />
+    <NuxtPage />
+
+    <!-- 全局toast -->
+    <UNotifications />
+    <!-- <UIcon name="i-heroicons-check-circle-20-solid" /> -->
+    <!-- <UIcon name="i-heroicons-exclamation-circle-20-solid" /> -->
+  </div>
 </template>
 
 <script setup>
+import { useToastStore } from '@/store/useToastStore';
+
 const runtimeConfig = useRuntimeConfig();
-console.log(runtimeConfig);
-// const appConfig = useAppConfig();
+const toast = useToast();
+const toastStore = useToastStore(); // 自定义全局toast
+
+const seoMeta = reactive({
+  title: '木得 mood',
+  description: '木得是英文mood（心境）的中文谐音，有木心情都来mood。',
+});
+
+onMounted(() => {
+  // 将toast实例存入store以便使用
+  toastStore.setInstance(toast);
+  console.log('[RuntimeConfig] apiBase: ' + runtimeConfig.public.apiBase);
+});
 
 // 入口seo设置，页面使用useSeoMeta
 useServerSeoMeta({
-  title: '网站标题222',
-  description: '这是我的神奇网站，让我告诉您所有相关信息。',
+  title: () => seoMeta.title,
+  description: () => seoMeta.description,
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#app {
+}
+</style>
