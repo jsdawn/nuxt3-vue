@@ -1,3 +1,4 @@
+import { getUsers } from '@/api/users';
 import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', {
@@ -28,6 +29,12 @@ export const useAppStore = defineStore('app', {
       this.token = '';
       this.user = null;
       reloadNuxtApp();
+    },
+
+    async getUserInfo() {
+      const res = await getUsers();
+      this.setUser(res.data);
+      return res.data;
     },
   },
   persist: {

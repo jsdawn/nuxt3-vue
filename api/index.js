@@ -7,3 +7,11 @@ export function loginUser(data) {
     data,
   });
 }
+
+export function uploadImage(data) {
+  return request({
+    url: '/api/common/upload/image',
+    method: 'post',
+    data,
+  });
+}

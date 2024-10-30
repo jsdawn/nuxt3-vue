@@ -4,7 +4,7 @@
  * 运行顺序：全局路由中间件 -> 具名路由中间件
  */
 
-import { getUser } from '@/api/user';
+import { getUsers } from '@/api/users';
 import { useAppStore } from '@/store/useAppStore';
 
 const NotLoginRoutes = ['/login', '/login/register'];
@@ -23,8 +23,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (import.meta.client) {
     if (store.token && !store.user && !isLoginPage) {
       try {
-        const res = await getUser();
-        store.setUser(res.data);
+        const res = await store.getUserInfo();
       } catch (error) {
         store.setToken('');
         return navigateTo('/login');

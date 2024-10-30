@@ -45,6 +45,11 @@ const items = ref([
   ],
   [
     {
+      label: 'Setting',
+      icon: 'i-heroicons-cog-8-tooth',
+      to: '/users/info',
+    },
+    {
       label: 'Sign out',
       icon: 'i-heroicons-arrow-left-on-rectangle',
       click: handleSignOut,
