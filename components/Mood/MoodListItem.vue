@@ -1,6 +1,6 @@
 <template>
   <div class="mood-list-item flex space-x-3 text-sm pt-7">
-    <UAvatar size="md" :src="item.avatar || store.defaultAvatar" alt="M" />
+    <UAvatar size="md" :src="author.avatar || store.defaultAvatar" alt="M" />
 
     <div class="item__bd space-y-1 flex-1">
       <ULink class="item__title text-base" inactive-class="text-primary-600">
