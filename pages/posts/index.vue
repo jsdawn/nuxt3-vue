@@ -1,6 +1,6 @@
 <template>
-  <div class="v-page index-page">
-    <UContainer class="mood-list">
+  <div class="v-page posts-page">
+    <UContainer class="posts-list pt-4">
       <PostListItem :item="item" v-for="item in state.dataList" :key="item.id" />
 
       <UDivider id="load-more" class="py-6" :label="state.finished ? '完' : '加载中'" />
@@ -52,4 +52,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.posts-list {
+}
+</style>

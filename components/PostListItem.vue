@@ -1,11 +1,15 @@
 <template>
-  <div class="post-list-item text-sm pt-3 cursor-pointer hover:bg-gray-600/5">
+  <div
+    class="post-list-item text-sm pt-3 cursor-pointer hover:bg-gray-600/5"
+    @click="gotoDetail"
+  >
     <h3 class="font-bold text-base">{{ item.title }}</h3>
     <div class="text-slate-500 truncate mt-1">
       {{ item.brief }}
     </div>
+
     <div class="text-slate-500 flex space-x-3 mt-2">
-      <span>{{ author.name }}</span>
+      <RouterLink class="hover:text-primary">{{ author.name }}</RouterLink>
       <UDivider orientation="vertical" />
       <span class="flex">
         <UIcon class="w-5 h-5" name="i-heroicons-hand-thumb-up" />
@@ -27,9 +31,13 @@ const props = defineProps({
 });
 
 const author = computed(() => props.item.author);
+
+function gotoDetail() {
+  navigateTo('/posts/' + props.item.id);
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .post-list-item {
 }
 </style>

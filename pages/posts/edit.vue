@@ -31,7 +31,9 @@
         </UFormGroup>
 
         <div class="pt-4">
-          <UButton size="md" block type="submit" :loading="posting"> 发表心情 </UButton>
+          <UButton size="md" block type="submit" :loading="posting">
+            {{ form.type == 3 ? '发表心情' : '发表文章' }}
+          </UButton>
         </div>
         <UButton size="md" block color="white" @click="router.back()"> 返回 </UButton>
       </UForm>
@@ -89,9 +91,9 @@ definePageMeta({
   // 路由验证，返回false则不匹配该路由，如无另一个匹配项，则会导致404错误
   // 运行顺序先于全局路由中间件
   validate: async (route) => {
-    const type = route.query.type;
+    const type = +route.query.type;
     // 检查id是否由数字组成
-    return !type || /^\d+$/.test(type);
+    return /^\d+$/.test(type) && [1, 2, 3].includes(type);
   },
   // 指定具名路由中间件
   middleware: 'posts-auth',
