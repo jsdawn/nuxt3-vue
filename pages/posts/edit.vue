@@ -1,16 +1,30 @@
 <template>
   <div class="v-page posts-edit-page">
     <UContainer class="login-form py-7">
-      <UForm :schema="schema" :state="form" class="space-y-4" @submit="onSubmit">
-        <UFormGroup label="标题" name="title" v-if="form.type != 3">
-          <UInput v-model.trim="form.title" />
+      <UForm
+        :schema="form.type == 3 ? schema3 : schema"
+        :state="form"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <UFormGroup label="标题" name="title" required v-if="form.type != 3">
+          <UInput v-model.trim="form.title" :maxlength="50" />
+        </UFormGroup>
+
+        <UFormGroup label="简介" name="brief" required v-if="form.type != 3">
+          <UTextarea
+            v-model="form.brief"
+            :rows="2"
+            :maxlength="190"
+            placeholder="这一刻的想法..."
+          />
         </UFormGroup>
 
         <UFormGroup label="内容" name="content" required>
           <UTextarea
             v-model="form.content"
-            :rows="4"
-            :maxrows="8"
+            :rows="5"
+            :maxrows="10"
             autoresize
             placeholder="这一刻的想法..."
           />
@@ -35,15 +49,27 @@ const route = useRoute();
 const toast = useToastStore();
 
 const schema = Joi.object({
+  title: Joi.string().required(),
+  brief: Joi.string().min(10).required().messages({
+    'string.min': '简介 长度不能小于 10 个字符',
+  }),
+  content: Joi.string().min(10).required().messages({
+    'string.min': '内容 长度不能小于 10 个字符',
+  }),
+}).unknown();
+
+// 心情类型规则
+const schema3 = Joi.object({
   title: Joi.string().allow(''),
-  content: Joi.string().min(5).required().messages({
-    'string.min': '内容 长度不能小于 5 个字符',
+  content: Joi.string().min(10).required().messages({
+    'string.min': '内容 长度不能小于 10 个字符',
   }),
 }).unknown(); // 允许未定义规则的key通过
 
 const posting = ref(false);
 const form = reactive({
   title: '',
+  brief: '',
   content: '',
   type: +route.query.type,
 });

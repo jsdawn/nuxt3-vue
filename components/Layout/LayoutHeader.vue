@@ -9,7 +9,7 @@
 
           <UDropdown :items="types" :popper="{ placement: 'bottom-start' }">
             <ULink class="flex items-center space-x-1" inactive-class="text-primary">
-              <span>心情</span>
+              <span>{{ headerTitle }}</span>
               <UIcon name="i-heroicons-chevron-down-20-solid" />
             </ULink>
           </UDropdown>
@@ -52,7 +52,9 @@
 import { useAppStore } from '@/store/useAppStore';
 
 const store = useAppStore();
+const route = useRoute();
 
+const headerTitle = ref('心情');
 const types = ref([
   [{ label: '心情', icon: 'i-heroicons-fire-20-solid', to: '/' }],
   [{ label: '文章', icon: 'i-heroicons-document-text-solid', to: '/posts' }],
@@ -65,8 +67,28 @@ const items = ref([
       to: '/posts/edit?type=3',
     },
   ],
-  [{ label: '写文章', icon: 'i-heroicons-pencil-square-20-solid' }],
+  [
+    {
+      label: '写文章',
+      icon: 'i-heroicons-pencil-square-20-solid',
+      to: '/posts/edit?type=1',
+    },
+  ],
 ]);
+
+watch(
+  () => route.name,
+  (val) => {
+    if (val == 'index') {
+      headerTitle.value = '心情';
+    } else if (val == 'posts') {
+      headerTitle.value = '文章';
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 
 function gotoLogin() {
   navigateTo('/login');
